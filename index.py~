@@ -7,4 +7,3 @@ print("Content-Type: text/html")
 print()
 
 print("hola")
-Helpers.db.testprint()
