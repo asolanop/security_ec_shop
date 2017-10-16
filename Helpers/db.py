@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 import pymysql
 
 global_conn = 0;
@@ -9,13 +9,13 @@ def connectDB():
 	global global_conn 
 	global_conn = getConection()
 	#print("You are now connected to Mercadito")
-	#init()
+	init()
 
 def getConection():
 	conn = pymysql.connect(
 	    db='mercadito',
 	    user='root',
-	    passwd='',
+	    passwd='grisiru',
 	    host='localhost')
 	return conn
 

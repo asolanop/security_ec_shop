@@ -41,11 +41,17 @@ if os.getenv("REQUEST_METHOD") == 'GET':
 
 if os.getenv("REQUEST_METHOD") == 'POST':
 	post_params = sys.stdin.read()
-	user = parser.parse(post_params)
+	user = parser.parseData(post_params)
 	db.connectDB()
 	db.insertUser("id", user['firstname'], user['lastname'], user['email'], 
 				user['password'], user['username'], user['telephone'], user['address'])
-	print("Location:http://localhost/")
+	
+	print("Content-Type: text/html")
 	print()
+	print ("""\
+
+<div>
+	<h2>Usuario ingresado con &eacute;xito: <a href="login.py">haga click para iniciar sesi&oacute;n</a></h2>
+""")
 	
 
