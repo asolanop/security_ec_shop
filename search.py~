@@ -15,3 +15,4 @@ if os.getenv("REQUEST_METHOD") == 'GET':
 	db.connectDB()
 	data = db.search(item['search'])
 	Helpers.structure.printItemContents(data)
+	print("get recibido2")

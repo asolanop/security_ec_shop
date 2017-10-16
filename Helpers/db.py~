@@ -3,13 +3,19 @@ import pymysql
 
 global_conn = 0;
 
+def init():
+	connectDB()
+	deleteData()
+	insertSampleUsers()
+	insertSampleItems()
+	#printData()
+
 # Connect to the DB
 def connectDB(): 
 	#print("Connecting to DB Mercadito")
 	global global_conn 
 	global_conn = getConection()
 	#print("You are now connected to Mercadito")
-	init()
 
 def getConection():
 	conn = pymysql.connect(
@@ -18,12 +24,6 @@ def getConection():
 	    passwd='grisiru',
 	    host='localhost')
 	return conn
-
-def init():
-	deleteData()
-	insertSampleUsers()
-	insertSampleItems()
-	printData()
 
 # Commit changes
 def commitChanges():
@@ -71,6 +71,12 @@ def insertSampleItems():
 def getAllItems():
 	c = global_conn.cursor()	
 	c.execute("SELECT name, price, description FROM Items")
+	data = c.fetchall()
+	return data
+
+def search(searchby): 
+	c = global_conn.cursor()	
+	c.execute("SELECT name, price, description FROM Items where name LIKE '%"+searchby+"%' OR description LIKE'%"+searchby+"%';")
 	data = c.fetchall()
 	return data
 
