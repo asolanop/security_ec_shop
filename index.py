@@ -10,6 +10,7 @@ def printStartSection():
 	print("<head><title> El Mercadito Musical </title> </head>")
 	
 def printHomeBody():
+	Helpers.db.init()
 	print("<body>")
 	print("<h2>El Mercadito Musical</h2>")
 	bigtempl = '''<center>
@@ -21,23 +22,29 @@ def printHomeBody():
 	rowtempl = """
 	<tr>
 	    <td align="center" style="font-size:1.25em;">
-	    <p class="sansserif"> <b> Number: {number:d} </b> <br>
-	    Letter: {letter} </p>
+	    <p class="sansserif"> <b> Name: {name} </b> <br>
+	    Description: {descrip} </p>
 	    </td>
 	</tr>
 	"""
-	numbers = [0, 1, 2, 3]
-	letters = ["A", "B", "C", "D"]
+	items = Helpers.db.getAllItems()
+	names_list = list()
+	prices_list = list()
+	descrip_list = list()	
+	for row in items:
+		names_list.append(row[0])
+		prices_list.append(row[1])
+		descrip_list.append(row[2])
 
-	lst = zip(numbers, letters)
+	lst = zip(names_list, descrip_list)
 
-	rows = [rowtempl.format(number=number, letter=letter) for number, letter in lst]
+	rows = [rowtempl.format(name=names_list, descrip=descrip_list) for names_list, descrip_list in lst]
 	rows = "".join(rows)
 
 	wholepage = bigtempl.format(rows=rows)
 
 	print (wholepage)
-	Helpers.db.connectDB()
+	#Helpers.db.connectDB()
 	print("</body>")
 
 

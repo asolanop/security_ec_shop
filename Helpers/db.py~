@@ -68,4 +68,10 @@ def insertSampleItems():
 	insertItem(1,"Maracas",2000.00,"pa cumbiar",1)
 	insertItem(2,"Flauta Traversa",540.00,"fancy as it sounds",2)
 
+def getAllItems():
+	c = global_conn.cursor()	
+	c.execute("SELECT name, price, description FROM Items")
+	data = c.fetchall()
+	return data
+
 
