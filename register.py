@@ -1,10 +1,12 @@
 #!/usr/local/bin/python3
-
+import Helpers.myparser as parser
+import Helpers.db as db
 import os, sys
 
-print("Content-Type: text/html")
-print()
-print ("""\
+if os.getenv("REQUEST_METHOD") == 'GET': 
+	print("Content-Type: text/html")
+	print()
+	print ("""\
 
 <div>
 	<h2>Enter your data to register:</h2>
@@ -36,15 +38,13 @@ print ("""\
 
 """)
 
-print(os.getenv("REQUEST_METHOD"))
-
-from Helpers import myparser
-
-myparser.a()
-
 if os.getenv("REQUEST_METHOD") == 'POST':
-	print("POSTING DATA")
 	post_params = sys.stdin.read()
 	user = parser.parse(post_params)
-	print(user)
+	db.connectDB()
+	db.insertUser("id", user['firstname'], user['lastname'], user['email'], 
+				user['password'], user['username'], user['telephone'], user['address'])
+	print("Location:http://localhost/")
+	print()
+	
 

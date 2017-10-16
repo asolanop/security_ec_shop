@@ -1,7 +1,8 @@
 #!/usr/local/bin/python3
+import urllib
 
 def parse(rawUser):
-	userData = rawUser.split("&")
+	userData = urllib.unquote(rawUser).split("&")
 	dict = {}
 	for attribute in userData:
 		tokens = attribute.split("=")
