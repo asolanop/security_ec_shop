@@ -6,5 +6,5 @@ import Helpers.db
 print("Content-Type: text/html")
 print()
 
-print("hola")
-Helpers.db.testprint()
+print("Index Page")
+Helpers.db.connectDB()
