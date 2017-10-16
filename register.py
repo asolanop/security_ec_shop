@@ -1,11 +1,7 @@
-<<<<<<< HEAD
 #!/usr/local/bin/python3
+
 import Helpers.myparser as parser
 import Helpers.db as db
-=======
-#!/usr/bin/python3
-
->>>>>>> 70e15bc139bafb029b15c5682a1e7b7911e422a3
 import os, sys
 
 if os.getenv("REQUEST_METHOD") == 'GET': 
