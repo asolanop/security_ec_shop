@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3
 import urllib
 
+
 def parse(rawUser):
 	userData = urllib.unquote(rawUser).split("&")
 	dict = {}
