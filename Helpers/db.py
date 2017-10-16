@@ -74,4 +74,10 @@ def getAllItems():
 	data = c.fetchall()
 	return data
 
+def search(searchby): 
+	c = global_conn.cursor()	
+	c.execute("SELECT name, price, description FROM Items where name LIKE '%"+searchby+"%' OR description LIKE'%"+searchby+"%';")
+	data = c.fetchall()
+	return data
+
 
