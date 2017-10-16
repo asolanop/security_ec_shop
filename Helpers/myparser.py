@@ -3,7 +3,7 @@ from urllib import parse
 
 
 def parseData(rawUser):
-	userData = parse.unquote(rawUser).split("&")
+	userData = parse.unquote_plus(rawUser).split("&")
 	dict = {}
 	for attribute in userData:
 		tokens = attribute.split("=")
