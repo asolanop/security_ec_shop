@@ -5,8 +5,6 @@ import Helpers.db as db
 import os, sys
 
 print("Content-Type: text/html\r\n\r\n")
-
-# Form to get item data 
 print ("""<div>
 	<h2>Enter your product data:</h2>
 	<form method="POST">
@@ -19,12 +17,13 @@ print ("""<div>
 	<button>Submit</button>
 	</form></div>""")
 
-# Post method 
+
 if os.getenv("REQUEST_METHOD") == 'POST':
-	post_params = sys.stdin.read()	
+	post_params = sys.stdin.read()
+	print(post_params)	
 	item = parser.parseData(post_params)
+	print(item)
 	db.connectDB()
-	# Insert into DB Items
 	db.insertItem("id", item['name'], item['price'], item['description'], 124)
 	print ("""\<div>
 	<h2>Item added succesfully! 

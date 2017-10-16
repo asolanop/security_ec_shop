@@ -26,8 +26,11 @@ def printItemContents(items):
 	rowtempl = """
 	<tr>
 	    <td align="center" style="font-size:1.25em;">
-	    <p class="sansserif"> <b> Name: {name} </b> <br>
-	    Description: {descrip} </p>
+	    <p class="sansserif"> 
+		<b> Name: {name} </b> <br>
+		Description: {descrip} <br>
+		Price: {price}
+		</p>
 	    </td>
 	</tr>
 	"""
@@ -40,9 +43,10 @@ def printItemContents(items):
 		prices_list.append(row[1])
 		descrip_list.append(row[2])
 
-	lst = zip(names_list, descrip_list)
+	lst = zip(names_list, prices_list, descrip_list)
 
-	rows = [rowtempl.format(name=names_list, descrip=descrip_list) for names_list, descrip_list in lst]
+	rows = [rowtempl.format(name=names_list, price=prices_list, descrip=descrip_list) 
+		for names_list, prices_list, descrip_list in lst]
 	rows = "".join(rows)
 
 	wholepage = bigtempl.format(rows=rows)
