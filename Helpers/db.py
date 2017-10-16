@@ -20,7 +20,7 @@ def getConection():
 	return conn
 
 def init():
-	# deleteData()
+	deleteData()
 	insertSampleUsers()
 	insertSampleItems()
 	printData()

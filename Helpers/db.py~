@@ -19,15 +19,15 @@ def getConection():
 	    host='localhost')
 	return conn
 
+# deleteData()
 def init():
-	# deleteData()
 	insertSampleUsers()
 	insertSampleItems()
 	printData()
 
 # Commit changes
-def commitChanges(connection):
-	getConection().commit()
+def commitChanges():
+	global_conn.commit()
 
 # Delete all data from the DB
 def deleteData():
