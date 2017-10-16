@@ -1,6 +1,5 @@
 #!/usr/local/bin/python3
 
-from Helpers import myparser as parser
 import os, sys
 
 print("Content-Type: text/html")
@@ -39,7 +38,9 @@ print ("""\
 
 print(os.getenv("REQUEST_METHOD"))
 
-parser.a()
+from Helpers import myparser
+
+myparser.a()
 
 if os.getenv("REQUEST_METHOD") == 'POST':
 	print("POSTING DATA")
