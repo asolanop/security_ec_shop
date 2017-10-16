@@ -5,10 +5,10 @@ global_conn = 0;
 
 # Connect to the DB
 def connectDB(): 
-	print("Connecting to DB Mercadito")
+	#print("Connecting to DB Mercadito")
 	global global_conn 
 	global_conn = getConection()
-	print("You are now connected to Mercadito")
+	#print("You are now connected to Mercadito")
 	init()
 
 def getConection():
@@ -19,8 +19,8 @@ def getConection():
 	    host='localhost')
 	return conn
 
-# deleteData()
 def init():
+	deleteData()
 	insertSampleUsers()
 	insertSampleItems()
 	printData()
@@ -38,14 +38,14 @@ def deleteData():
 
 # Insert user
 def insertUser(id,firstname,lastname,email,pw, username, phone, address):
-	print("Inserting user")
+	#print("Inserting user")
 	c = global_conn.cursor()	
 	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s)", (firstname, lastname, email, pw, username, phone, address))
 	commitChanges()
 
 # Insert item
 def insertItem(id,name,price,descrip,owner):
-	print("Inserting item")
+	#print("Inserting item")
 	c = global_conn.cursor()	
 	c.execute("INSERT INTO Items VALUES (null, %s, %s, %s, %s)", (name,price,descrip,owner))
 	commitChanges()

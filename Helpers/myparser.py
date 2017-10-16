@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 def parse(rawUser):
 	userData = rawUser.split("&")
