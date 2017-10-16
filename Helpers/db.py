@@ -104,3 +104,4 @@ def createSession(log_intent):
 		return {'sessionID':random_key,'expiration':expiration_date.strftime('%Y-%m-%d %H:%M:%S')}
 	except :
 		return None
+	

@@ -34,8 +34,8 @@ if os.getenv("REQUEST_METHOD") == 'POST':
 	if res != None :
 		print("Set-Cookie: SessionID=" + res['sessionID'] + ";")
 		print("Set-Cookie: Expires=" + res['expiration'] + ";")
+		print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/register.py")
 		print()
-		print("Autenticacion realizada!!!! :D")
 		
 		#print("Set-Cookie: sessionid=" + res[] + ";")
 	else:

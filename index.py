@@ -7,7 +7,7 @@ def printHeaders():
 	print("Content-Type: text/html\r\n\r\n")
 
 def createHomeBody():
-	Helpers.db.init()
+	#Helpers.db.init()
 	items = Helpers.db.getAllItems()
 	Helpers.structure.printItemContents(items)
 
