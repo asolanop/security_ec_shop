@@ -110,4 +110,18 @@ def createSession(log_intent):
 		return {'sessionID':random_key,'expiration':expiration_date.strftime('%Y-%m-%d %H:%M:%S')}
 	except :
 		return None
-	
+
+def checkSession(sessionCookie):
+	if sessionCookie != None :
+		if 'SessionID' in sessionCookie :
+			sql = "SELECT user_id FROM `Sessions` WHERE `id`=%s AND `expiration`>NOW();"
+			try :
+				c = global_conn.cursor()
+				c.execute(sql, (sessionCookie['SessionID']))
+				if c.rowcount > 0:
+					data = c.fetchone()
+					return data[0]
+			except :
+				print("Error checking cookie on DB")
+				return None
+	return None

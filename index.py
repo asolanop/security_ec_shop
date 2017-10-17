@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 import Helpers.db
 import Helpers.structure
@@ -8,6 +8,7 @@ def printHeaders():
 
 def createHomeBody():
 	#Helpers.db.init()
+	Helpers.db.connectDB()
 	items = Helpers.db.getAllItems()
 	Helpers.structure.printItemContents(items)
 
