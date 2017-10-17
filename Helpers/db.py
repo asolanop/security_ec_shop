@@ -45,6 +45,12 @@ def insertUser(id,firstname,lastname,email,pw, username, phone, address):
 	commitChanges()
 
 # Insert item
+def insertItem(id, name, price, description, owner):
+	c = global_conn.cursor()	
+	c.execute("INSERT INTO Items VALUES (null, %s, %s, %s, %s)", (name, price, description, owner))
+	commitChanges()
+
+# Insert item
 def insertItem(id,name,price,descrip,owner):
 	#print("Inserting item")
 	c = global_conn.cursor()	
