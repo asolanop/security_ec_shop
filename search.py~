@@ -12,7 +12,6 @@ print("Content-Type: text/html\r\n\r\n")
 
 if os.getenv("REQUEST_METHOD") == 'GET':
 	item = parser.parseData(os.getenv("QUERY_STRING"))
-	print(item['search'])
 	db.connectDB()
 	data = db.search(item['search'])
 	Helpers.structure.printItemContents(data)
