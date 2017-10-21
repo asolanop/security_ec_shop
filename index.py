@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 import Helpers.db
 import Helpers.structure
@@ -7,7 +7,8 @@ def printHeaders():
 	print("Content-Type: text/html\r\n\r\n")
 
 def createHomeBody():
-	Helpers.db.init()
+	#Helpers.db.init()
+	Helpers.db.connectDB()
 	items = Helpers.db.getAllItems()
 	Helpers.structure.printItemContents(items)
 

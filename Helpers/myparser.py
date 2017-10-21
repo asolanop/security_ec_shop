@@ -10,5 +10,15 @@ def parseData(rawUser):
 		dict[tokens[0]] = tokens[1]
 	return dict
 
+def parseCookie(cookie):
+	if cookie != None:
+		cookieData = cookie.split(";")
+		dict = {}
+		for attribute in cookieData:
+			tokens = attribute.split("=")
+			dict[tokens[0].strip()] = tokens[1].strip()
+		return dict
+	return None
+
 def a():
 	print("Hola andru")

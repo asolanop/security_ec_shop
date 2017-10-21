@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 def printStartSection():
 	print("<html>")
@@ -9,7 +9,7 @@ def printStartSection():
 def printItemContents(items):
 	print (""" <div>
 	<h2>Search:</h2>
-		<form method="GET" action="../search.py">
+		<form method="GET" action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/search.py">
 			<label for="search">Search by: </label>
 			<input id="search" name="search" maxlength="50" />
  			<button type="submit">Submit</button><br>
