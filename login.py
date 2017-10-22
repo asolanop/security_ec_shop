@@ -6,15 +6,8 @@ import os, sys
 
 db.connectDB()
 autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
-if autenticate != None :
-	print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")
-	print()
-
-else :	
-
-	login_form = """\
-
-<div>
+if autenticate == None :
+	login_form = """\<div>
 	<h2>Ingrese sus datos de autenticaci&oacute;n:</h2>
 	<form method="POST">
 		<label for="username">Nombre de usuario: </label>
@@ -24,13 +17,10 @@ else :
 		<input id="password" name="password" maxlength="25" type="password" />
 		<br />
 		<button>Iniciar sesi&oacute;n</button>
-	</form>
-</div>
-
-"""
+	</form></div>"""
 	
 	if os.getenv("REQUEST_METHOD") == 'GET':
-		print()
+		print("Content-Type: text/html;\r\n\r\n")
 		print(login_form)
 
 	if os.getenv("REQUEST_METHOD") == 'POST':
@@ -42,6 +32,7 @@ else :
 			print("Set-Cookie: SessionID=" + res['sessionID'] + ";")
 			print("Set-Cookie: Expires=" + res['expiration'] + ";")
 			print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")
+			#print("Location: http://localhost/index.py")
 			print()
 		else:
 			print()
@@ -50,3 +41,8 @@ else :
 				<p style="color:red">Error de autenticaci&oacute;n, 
 				por favor intente de nuevo.</p>
 				""")
+else :
+	#print("Content-Type: text/html;\r\n\r\n")
+	print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")	
+	#print("Location: http://localhost/index.py")
+	print()
