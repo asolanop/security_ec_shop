@@ -22,7 +22,7 @@ def getConection():
 	conn = pymysql.connect(
 	    db='mercadito',
 	    user='root',
-	    passwd='grisiru',
+	    passwd='',
 	    host='localhost')
 	return conn
 
@@ -103,13 +103,13 @@ def createSession(log_intent):
 	start_date = time.strftime('%Y-%m-%d %H:%M:%S')
 	date_created = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
 	expiration_date = date_created+timedelta(days=1)
-	try:
-		c = global_conn.cursor()
-		c.execute("INSERT INTO Sessions VALUES (%s, %s, %s, %s)", (random_key,date_created,expiration_date,log_intent[0]))
-		commitChanges()
-		return {'sessionID':random_key,'expiration':expiration_date.strftime('%Y-%m-%d %H:%M:%S')}
-	except :
-		return None
+	#try:
+	c = global_conn.cursor()
+	c.execute("INSERT INTO Sessions VALUES (%s, %s, %s, %s)", (random_key,date_created,expiration_date,log_intent[0]))
+	commitChanges()
+	return {'sessionID':random_key,'expiration':expiration_date.strftime('%a, %d %b %Y %T GMT')}
+	#except :
+	#	return None
 
 def checkSession(sessionCookie):
 	if sessionCookie != None :
@@ -125,3 +125,13 @@ def checkSession(sessionCookie):
 				print("Error checking cookie on DB")
 				return None
 	return None
+
+def delSession(sessionCookie):
+	sql = "Delete FROM `Sessions` WHERE `id`=%s;"
+	try:
+		c = global_conn.cursor()
+		c.execute(sql, (sessionCookie))
+		commitChanges()
+		return 1
+	except:
+		return None
