@@ -87,6 +87,32 @@ def search(searchby):
 	data = c.fetchall()
 	return data
 
+def getUserCart(user_id):
+	sql = "Select id FROM `Cart` WHERE user_id=%s;"
+	try : 
+		c = global_conn.cursor()
+		c.execute(sql, (user_id))
+		if c.rowcount > 0:
+			data = c.fetchone()
+			return data[0]
+		else:
+			return None
+	except :
+		return None
+
+def addToCart(item_id, user_id):
+	sql = "INSERT INTO Cart_Items VALUES (%s, %s, 1);"
+	cart_id = getUserCart(user_id)
+	if cart_id == None :
+		return None
+	try :
+		c = global_conn.cursor()
+		c.execute(sql, (cart_id, int(item_id)))
+		commitChanges()
+		return 1
+	except :
+		None
+
 def login(username, password):
 	sql = "SELECT * FROM `Users` WHERE `username`=%s AND `password`=%s;"
 	c = global_conn.cursor()

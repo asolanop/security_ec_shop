@@ -7,7 +7,8 @@ import os, sys
 db.connectDB()
 autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
 if autenticate == None :
-	login_form = """\<div>
+	login_form = """\
+	<div>
 	<h2>Ingrese sus datos de autenticaci&oacute;n:</h2>
 	<form method="POST">
 		<label for="username">Nombre de usuario: </label>
