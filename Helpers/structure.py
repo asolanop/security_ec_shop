@@ -31,6 +31,12 @@ def printItemContents(items):
 		Description: {descrip} <br>
 		Price: {price}
 		</p>
+		<form method="GET" action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/addToCart.py">
+	<input type="hidden" name="name" value={name} />
+	<input type="hidden" name="descrip" value={descrip} />
+	<input type="hidden" name="price" value={price} />
+	<button type="submit">Add to Cart</button><br>
+		</form>
 	    </td>
 	</tr>
 	"""
