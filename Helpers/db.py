@@ -42,7 +42,18 @@ def insertUser(id,firstname,lastname,email,pw, username, phone, address):
 	#print("Inserting user")
 	c = global_conn.cursor()	
 	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s)", (firstname, lastname, email, pw, username, phone, address))
+	createUserCart(c.lastrowid)
 	commitChanges()
+
+# Create a cart tuple for a just created user
+def createUserCart(user_id):
+	try :
+		sql = "Insert INTO Cart Values(null, %s)"
+		c = global_conn.cursor()
+		c.execute(sql, (int(user_id)))
+		commitChanges()
+	except :
+		return None
 
 # Insert item
 def insertItem(id, name, price, description, owner):
