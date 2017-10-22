@@ -3,6 +3,8 @@
 import Helpers.myparser as parser
 import Helpers.db as db
 import os, sys
+import Helpers.structure as structure
+import Helpers.nav as nav
 
 db.connectDB()
 autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
@@ -14,8 +16,10 @@ if autenticate == None :
 else :	
 	# Form to get item data 
 	print("Content-Type: text/html\r\n\r\n")
+	structure.printStartSection()
+	nav.printNav(autenticate)	
 	print ("""<div>
-		<h2>Enter your product data:</h2>
+		<h3>Enter your product information:</h3>
 		<form method="POST">
 		<label for="name">Item Name*: </label>
 		<input id="name" name="name" maxlength="50" /><br />

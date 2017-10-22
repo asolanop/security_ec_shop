@@ -1,43 +1,54 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import Helpers.myparser as parser
 import Helpers.db as db
 import os, sys
+import Helpers.structure as structure
+import Helpers.nav as nav
 
 if os.getenv("REQUEST_METHOD") == 'GET': 
 	print("Content-Type: text/html")
 	print()
+	structure.printStartSection()
+	nav.printNav("none")		
 	print ("""\
 
 <div>
-	<h2>Enter your data to register:</h2>
+	<h3>Please complete the data below:</h3>
+	<div id=divregister>	
 	<form method="POST">
-		<label for="firstname">Nombre*: </label>
-		<input id="firstname" name="firstname" maxlength="50" />
+		<label for="firstname">Name*: </label>
 		<br />
-		<label for="lastname">Apellido*: </label>
-		<input id="lastname" name="lastname" maxlength="50" />
+		<input id="firstname" name="firstname" maxlength="50" type="text" />
 		<br />
-		<label for="username">Nombre de usuario*: </label>
-		<input id="username" name="username" maxlength="25" />
+		<label for="lastname">Last Name*: </label>
 		<br />
-		<label for="password">Contrasena*: </label>
+		<input id="lastname" name="lastname" maxlength="50" type="text" />
+		<br />
+		<label for="username">Username*: </label>
+		<br />
+		<input id="username" name="username" maxlength="25" type="text"/>
+		<br />
+		<label for="password">Password*: </label>
+		<br />
 		<input id="password" name="password" maxlength="25" type="password" />
 		<br />
-		<label for="email">Correo electr&oacute;nico*: </label>
+		<label for="email">Email*: </label>
+		<br />
 		<input id="email" name="email" maxlength="50" type="email" />
 		<br />
-		<label for="address">Direcci&oacute;n*: </label>
+		<label for="address">Address*: </label>
+		<br />
 		<input id="address" name="address" maxlength="50" />
 		<br />
-		<label for="telephone">Tel&eacute;fono*: </label>
+		<label for="telephone">Phone*: </label>
+		<br />
 		<input id="telephone" name="telephone" maxlength="10" type="number" />
 		<br />
 		<button>Submit</button>
 	</form>
-</div>
-
-""")
+	</div>
+</div>""")
 
 if os.getenv("REQUEST_METHOD") == 'POST':
 	post_params = sys.stdin.read()
@@ -51,7 +62,7 @@ if os.getenv("REQUEST_METHOD") == 'POST':
 	print ("""\
 
 <div>
-	<h2>Usuario ingresado con &eacute;xito: <a href="login.py">haga click para iniciar sesi&oacute;n</a></h2>
+	<h2>User added succesfully: <a href="login.py">Clic to login</a></h2>
 """)
 	
 
