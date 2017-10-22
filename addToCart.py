@@ -12,12 +12,18 @@ if autenticate != None :
 	cartItem = parser.parseData(sys.stdin.read())
 	result = db.addToCart(cartItem['itemID'], autenticate)	
 	if result == None :
+		#Error agregando el item
 		print("Content-Type: text/html\r\n\r\n")
-		print("Error agregando al carrito. Intentelo de nuevo: ")
+		print("Error agregando al carrito. Intentelo de nuevo (refresque el sitio) </br> ")
 		print('<a href="' + referer + '" > Regresar a la p&aacute;gina anterior.')
 	else :
-		print("Content-Type: text/html\r\n\r\n")
-		print("Redirect a: " + referer)
+		#Redirect a la pagina anterior
+		print("Location: " + referer)
+		print()
+else :
+	#Redirect a LOGIN
+	#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")	
+	print("Location: http://localhost/login.py")
+	print()
 
-#else :
 	
