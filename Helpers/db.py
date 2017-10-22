@@ -1,4 +1,5 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
+
 import pymysql, os, hashlib, time
 from datetime import datetime, timedelta
 
@@ -53,6 +54,18 @@ def createUserCart(user_id):
 		c.execute(sql, (int(user_id)))
 		commitChanges()
 	except :
+		return None
+
+# Get cart items count
+def cartCount(user_id):
+	try :
+		cart_id = getUserCart(user_id)
+		sql = "Select COUNT(item_id) FROM Cart_Items where cart_id=%s"
+		c = global_conn.cursor()
+		c.execute(sql, (cart_id))
+		data = c.fetchone()
+		return data[0]
+	except:
 		return None
 
 # Insert item
