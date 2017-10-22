@@ -31,11 +31,9 @@ def printItemContents(items):
 		Description: {descrip} <br>
 		Price: {price}
 		</p>
-		<form method="GET" action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/addToCart.py">
-	<input type="hidden" name="name" value={name} />
-	<input type="hidden" name="descrip" value={descrip} />
-	<input type="hidden" name="price" value={price} />
-	<button type="submit">Add to Cart</button><br>
+		<form method="POST" action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/addToCart.py">
+		<input type="hidden" name="itemID" value={id} />
+		<button type="submit">Add to Cart</button><br>
 		</form>
 	    </td>
 	</tr>
@@ -43,16 +41,18 @@ def printItemContents(items):
 
 	names_list = list()
 	prices_list = list()
-	descrip_list = list()	
+	descrip_list = list()
+	id_list = list()
 	for row in items:
 		names_list.append(row[0])
 		prices_list.append(row[1])
 		descrip_list.append(row[2])
+		id_list.append(row[3])
+		
+	lst = zip(names_list, prices_list, descrip_list, id_list)
 
-	lst = zip(names_list, prices_list, descrip_list)
-
-	rows = [rowtempl.format(name=names_list, price=prices_list, descrip=descrip_list) 
-		for names_list, prices_list, descrip_list in lst]
+	rows = [rowtempl.format(name=names_list, price=prices_list, descrip=descrip_list, id=id_list) 
+		for names_list, prices_list, descrip_list, id_list in lst]
 	rows = "".join(rows)
 
 	wholepage = bigtempl.format(rows=rows)

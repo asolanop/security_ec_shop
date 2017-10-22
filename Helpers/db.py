@@ -77,13 +77,13 @@ def insertSampleItems():
 
 def getAllItems():
 	c = global_conn.cursor()	
-	c.execute("SELECT name, price, description FROM Items")
+	c.execute("SELECT name, price, description, id FROM Items")
 	data = c.fetchall()
 	return data
 
 def search(searchby): 
 	c = global_conn.cursor()	
-	c.execute("SELECT name, price, description FROM Items where name LIKE '%"+searchby+"%' OR description LIKE'%"+searchby+"%';")
+	c.execute("SELECT name, price, description, id FROM Items where name LIKE '%"+searchby+"%' OR description LIKE'%"+searchby+"%';")
 	data = c.fetchall()
 	return data
 

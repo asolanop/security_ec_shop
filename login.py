@@ -42,7 +42,6 @@ if autenticate == None :
 				por favor intente de nuevo.</p>
 				""")
 else :
-	#print("Content-Type: text/html;\r\n\r\n")
 	print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")	
 	#print("Location: http://localhost/index.py")
 	print()
