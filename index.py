@@ -1,18 +1,18 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
-import Helpers.db
-import Helpers.structure
+import Helpers.db as db
+import Helpers.structure as structure
+import Helpers.nav as nav
+import Helpers.myparser as parser
+import os, sys
 
-def printHeaders():
-	print("Content-Type: text/html\r\n\r\n")
+print("Content-Type: text/html\r\n\r\n")
+db.connectDB()
+autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
 
-def createHomeBody():
-	#Helpers.db.init()
-	Helpers.db.connectDB()
-	items = Helpers.db.getAllItems()
-	Helpers.structure.printItemContents(items)
+structure.printStartSection()
+nav.printNav(autenticate)
+items = db.getAllItems()
+structure.printItemContents(items)
+structure.printEndSection()
 
-printHeaders()
-Helpers.structure.printStartSection()
-createHomeBody()
-Helpers.structure.printEndSection()

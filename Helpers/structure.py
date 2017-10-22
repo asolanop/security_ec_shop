@@ -1,15 +1,17 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 def printStartSection():
 	print("<html>")
-	print("<head><title> El Mercadito Musical </title> </head>")
+	print("""<head><link rel="stylesheet" href="style.css">
+		<title> El Mercadito Musical </title> </head>""")
 	print("<body>")
-	print("<h2>El Mercadito Musical</h2>")
+	print("<h2>El Mecadito Birrero</h2>")
+	#print('<img src="http://imgur.com/a/4XL4F" width="300" height="250">')
 
 def printItemContents(items):
-	print (""" <div>
-	<h2>Search:</h2>
-		<form method="GET" action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/search.py">
+	#action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/search.py"
+	print (""" <div id="searchdiv">
+		<form method="GET" action="http://localhost/search.py">
 			<label for="search">Search by: </label>
 			<input id="search" name="search" maxlength="50" />
  			<button type="submit">Submit</button><br>
@@ -23,15 +25,16 @@ def printItemContents(items):
         		</table>
     		</center>'''
 
+	#action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/addToCart.py">
 	rowtempl = """
 	<tr>
-	    <td align="center" style="font-size:1.25em;">
+	    <td align="center">
 	    <p class="sansserif"> 
-		<b> Name: {name} </b> <br>
+		<b> {name} </b> <br>
 		Description: {descrip} <br>
 		Price: {price}
 		</p>
-		<form method="POST" action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/addToCart.py">
+		<form method="POST" action="http://localhost/addToCart.py">
 		<input type="hidden" name="itemID" value={id} />
 		<button type="submit">Add to Cart</button><br>
 		</form>
