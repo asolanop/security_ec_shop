@@ -17,7 +17,7 @@ else :
 	# Form to get item data 
 	print("Content-Type: text/html\r\n\r\n")
 	structure.printStartSection()
-	nav.printNav(autenticate)	
+	nav.printNav(autenticate, db.cartCount(autenticate))
 	print ("""<div>
 		<h3>Enter your product information:</h3>
 		<form method="POST">

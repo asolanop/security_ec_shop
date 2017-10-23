@@ -22,8 +22,8 @@ if autenticate != None :
 		print()
 else :
 	#Redirect a LOGIN
-	#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")	
-	print("Location: http://localhost/login.py")
+	print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")	
+	#print("Location: http://localhost/login.py")
 	print()
 
 	

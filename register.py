@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 import Helpers.myparser as parser
 import Helpers.db as db
@@ -10,7 +10,7 @@ if os.getenv("REQUEST_METHOD") == 'GET':
 	print("Content-Type: text/html")
 	print()
 	structure.printStartSection()
-	nav.printNav("none")		
+	nav.printNav(None)		
 	print ("""\
 
 <div>

@@ -1,18 +1,25 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
-def printNav(autenticate):
+def printNav(autenticate, item_count = None):
 	if autenticate == None :
 		print("""
 		<ul>
-		<li><a href="http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py">Home</a></li>
-		<li><a href="http://localhost/cgi-bin/MA-Shop/security_ec_shop/register.py">Register</a></li>
-		<li><a href="http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py">Login</a></li>
+		<li><a href="index.py">Home</a></li>
+		<li><a href="register.py">Register</a></li>
+		<li><a href="login.py">Login</a></li>
 		</ul>""") 
 	else :
 		print("""
+		\
 		<ul>
-		<li><a href="http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py">Home</a></li>
-		<li><a href="http://localhost/cgi-bin/MA-Shop/security_ec_shop/addItem.py">New Product</a></li>
-		<li><a href="http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py">My Cart</a></li>
-		<li><a href="http://localhost/cgi-bin/MA-Shop/security_ec_shop/logout.py">Logout</a></li>
-		</ul>""") 
+		<li><a href="index.py">Home</a></li>
+		<li><a href="addItem.py">New Product</a></li>
+		<li><a href="checkout.py">My Cart""")
+		
+		if item_count != None :
+			print(" (" + str(item_count) + ") ")
+		
+		print("""</a></li>
+		<li><a href="logout.py">Logout</a></li>
+		</ul>
+		""") 

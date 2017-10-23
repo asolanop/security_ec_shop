@@ -1,23 +1,25 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 def printStartSection():
 	print("<html>")
-	print("""<head><link rel="stylesheet" href="style.css">
+	print("""<head><link rel="stylesheet" href="http://localhost/css/style.css">
 		<title> El Mercadito Musical </title> </head>""")
 	print("<body>")
 	print("<h2>El Mecadito Birrero</h2>")
 	#print('<img src="http://imgur.com/a/4XL4F" width="300" height="250">')
 
-def printItemContents(items):
-	#action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/search.py"
+def printSearchForm():
 	print (""" <div id="searchdiv">
-		<form method="GET" action="http://localhost/search.py">
+		<form method="GET" action="search.py">
 			<label for="search">Search by: </label>
 			<input id="search" name="search" maxlength="50" />
  			<button type="submit">Submit</button><br>
 		<br />
 		</form>
 	</div>""")
+
+def printItemContents(items):
+	#action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/search.py"
 
 	bigtempl = '''<center>
         		<table border="0" cellspacing="15">
@@ -34,7 +36,7 @@ def printItemContents(items):
 		Description: {descrip} <br>
 		Price: {price}
 		</p>
-		<form method="POST" action="http://localhost/addToCart.py">
+		<form method="POST" action="addToCart.py">
 		<input type="hidden" name="itemID" value={id} />
 		<button type="submit">Add to Cart</button><br>
 		</form>

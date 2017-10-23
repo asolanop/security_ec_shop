@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 import Helpers.db as db
 import Helpers.structure as structure
@@ -11,8 +11,11 @@ db.connectDB()
 autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
 
 structure.printStartSection()
-nav.printNav(autenticate)
+if autenticate != None :
+	nav.printNav(autenticate, db.cartCount(autenticate))	
+else :
+	nav.printNav(autenticate)
+structure.printSearchForm()
 items = db.getAllItems()
 structure.printItemContents(items)
 structure.printEndSection()
-

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 import Helpers.myparser as parser
 import Helpers.db as db
@@ -15,7 +15,8 @@ if os.getenv("REQUEST_METHOD") == 'GET':
 	db.connectDB()
 	autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
 	structure.printStartSection()
-	nav.printNav(autenticate)
+	nav.printNav(autenticate, db.cartCount(autenticate))
+	structure.printSearchForm()
 	item = parser.parseData(os.getenv("QUERY_STRING"))
 	data = db.search(item['search'])
 	structure.printItemContents(data)
