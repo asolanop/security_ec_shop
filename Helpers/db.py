@@ -105,7 +105,9 @@ def printData():
 def insertSampleUsers():
 	c = global_conn.cursor()	
 	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Michelle","Cersosimo","mich@zoquetemail.com","admin","mich",22295015,"Coronado", 1, 0, 1))
+	createUserCart(c.lastrowid)
 	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",("Andres","Solano","andru@zoquetemail.com","admin","andru",22829829,"Alajuela", 1, 0, 1))
+	createUserCart(c.lastrowid)
 	commitChanges()
 
 # Insert sample data items
