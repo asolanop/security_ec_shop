@@ -1,27 +1,31 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
+import Helpers.structure as structure
+import Helpers.nav as nav
 import Helpers.myparser as parser
 import Helpers.db as db
 import os, sys
 
 db.connectDB()
 autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
-if autenticate == None :
+if autenticate == None :		
 	login_form = """\
 	<div>
-	<h2>Ingrese sus datos de autenticaci&oacute;n:</h2>
+	<h2>Enter your credentials to login:</h2>
 	<form method="POST">
-		<label for="username">Nombre de usuario: </label>
+		<label for="username">Username: </label>
 		<input id="username" name="username" maxlength="25" />
 		<br />
-		<label for="password">Contrasena: </label>
+		<label for="password">Password: </label>
 		<input id="password" name="password" maxlength="25" type="password" />
 		<br />
-		<button>Iniciar sesi&oacute;n</button>
+		<button>Login</button>
 	</form></div>"""
 	
 	if os.getenv("REQUEST_METHOD") == 'GET':
 		print("Content-Type: text/html;\r\n\r\n")
+		structure.printStartSection()
+		nav.printNav(None)	
 		print(login_form)
 
 	if os.getenv("REQUEST_METHOD") == 'POST':
@@ -37,11 +41,11 @@ if autenticate == None :
 			print()
 		else:
 			print()
+			print("Content-Type: text/html;\r\n\r\n")
+			structure.printStartSection()
+			nav.printNav(None)	
 			print(login_form)
-			print("""\	
-				<p style="color:red">Error de autenticaci&oacute;n, 
-				por favor intente de nuevo.</p>
-				""")
+			print("""\<p style="color:red">Authentication error, try again</p>""")
 else :
 	#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")	
 	print("Location: http://localhost/index.py")
