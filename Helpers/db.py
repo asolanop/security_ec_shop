@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import pymysql, os, hashlib, time
 from datetime import datetime, timedelta
@@ -23,7 +23,7 @@ def getConection():
 	conn = pymysql.connect(
 	    db='mercadito',
 	    user='root',
-	    passwd='',
+	    passwd='grisiru',
 	    host='localhost')
 	return conn
 
@@ -42,9 +42,21 @@ def deleteData():
 def insertUser(id,firstname,lastname,email,pw, username, phone, address):
 	#print("Inserting user")
 	c = global_conn.cursor()	
-	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s)", (firstname, lastname, email, pw, username, phone, address))
+	c.execute("INSERT INTO Users (id, first_name, last_name, email, password, username, telephone, address) VALUES (null, %s, %s, %s, %s, %s, %s, %s)", (firstname, lastname, email, pw, username, phone, address))
 	createUserCart(c.lastrowid)
 	commitChanges()
+
+# Is Admin or not 
+def isAdmin(user_id):
+	try :
+		sql = "Select role FROM Users where id=%s"
+		c = global_conn.cursor()
+		c.execute(sql, (user_id))
+		data = c.fetchone()
+		return data[0]
+	except:
+		return None
+
 
 # Create a cart tuple for a just created user
 def createUserCart(user_id):
@@ -91,13 +103,16 @@ def printData():
 
 # Insert sample data users
 def insertSampleUsers():
-	insertUser(1,"Michelle","Cersosimo","mich@zoquetemail.com","password1","mich",22295015,"Coronado")
-	insertUser(2,"Andres","Solano","andru@zoquetemail.com","password2","andru",22829829,"Alajuela")
+	c = global_conn.cursor()	
+	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Michelle","Cersosimo","mich@zoquetemail.com","admin","mich",22295015,"Coronado", 1, 0, 1))
+	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",("Andres","Solano","andru@zoquetemail.com","admin","andru",22829829,"Alajuela", 1, 0, 1))
+	commitChanges()
 
 # Insert sample data items
 def insertSampleItems():
-	insertItem(1,"Maracas",2000.00,"pa cumbiar",1)
-	insertItem(2,"Flauta Traversa",540.00,"fancy as it sounds",2)
+	insertItem(1,"La Maraca",2000.00,"Sabores dulces con una pizca de maracuya",1)
+	insertItem(2,"Domingo 7 ",1540.00,"Para esos dias especiales, nuestra combinacion IPA oscura",2)
+	insertItem(3,"Lagarta",1700.00,"Fria como ella sola, nuestros citricos cerveceros combinan perfecto con esta solucion amarga",2)
 
 def getAllItems():
 	c = global_conn.cursor()	

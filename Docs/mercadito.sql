@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `Items` (
 --
 
 CREATE TABLE IF NOT EXISTS `Sessions` (
-  `id` int(11) NOT NULL DEFAULT '0',
+  `id` varchar(32) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   `expiration` datetime NOT NULL,
   `user_id` int(11) NOT NULL
@@ -84,8 +84,27 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `password` varchar(100) NOT NULL,
   `username` varchar(25) NOT NULL,
   `telephone` int(11) NOT NULL,
-  `address` varchar(100) NOT NULL
+  `address` varchar(100) NOT NULL,
+  `role` int(1) NOT NULL DEFAULT 0, 
+  `try_count` int(1) NOT NULL DEFAULT 0, -- 0 starts the password try
+  `enable` boolean DEFAULT 1 -- 1 = enable 0 = blocked
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Feedback`
+--
+
+CREATE TABLE IF NOT EXISTS `Feedback` (
+  `id` int(11) NOT NULL,
+  `comment` varchar(100) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `isAuth` boolean DEFAULT 0 NOT NULL -- 0 is not Auth -- 1 is Auth
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 --
 -- Índices para tablas volcadas
@@ -97,6 +116,13 @@ CREATE TABLE IF NOT EXISTS `Users` (
 ALTER TABLE `Cart`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indices de la tabla `Cart`
+--
+ALTER TABLE `Feedback`
+  ADD PRIMARY KEY (`id`);
+
 
 --
 -- Indices de la tabla `Cart_Items`
@@ -135,6 +161,12 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT de la tabla `Cart`
 --
 ALTER TABLE `Cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+--
+-- AUTO_INCREMENT de la tabla `Feedback`
+--
+ALTER TABLE `Feedback`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `Items`
