@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3.6
 
 def printNav(autenticate, item_count = None):
 	if autenticate == None :

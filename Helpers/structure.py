@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3.6
 
 def printStartSection():
 	print("<html>")
@@ -6,7 +6,7 @@ def printStartSection():
 		<title> El Mercadito Musical </title> </head>""")
 	print("<body>")
 	print("<h2>El Mecadito Birrero</h2>")
-	#print('<img src="http://imgur.com/a/4XL4F" width="300" height="250">')
+	#print("""<img src="http://localhost/css/header.png" width="300" height="250">""")
 
 def printSearchForm():
 	print (""" <div id="searchdiv">

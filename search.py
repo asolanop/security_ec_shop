@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3.6
 
 import Helpers.myparser as parser
 import Helpers.db as db

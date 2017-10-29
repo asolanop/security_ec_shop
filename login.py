@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3.6
 
 import Helpers.structure as structure
 import Helpers.nav as nav
