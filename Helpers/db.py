@@ -155,12 +155,16 @@ def addToCart(item_id, user_id):
 		None
 
 def login(username, password):
-	sql = "SELECT * FROM `Users` WHERE `username`=%s AND `password`=%s;"
+	sql = "call login(%s, %s); "
 	c = global_conn.cursor()
 	c.execute(sql, (username, password))
-	if c.rowcount > 0:
-		data = c.fetchone()
-		return createSession(data)
+	data = c.fetchall()
+	result = data[0][0]
+	if result != None :
+		if result != -1 :
+			return createSession(data)
+		else :
+			return -1
 	else:
 		return None
 
@@ -189,7 +193,7 @@ def checkSession(sessionCookie):
 					data = c.fetchone()
 					return data[0]
 			except :
-				print("Error checking cookie on DB")
+				#print("Error checking cookie on DB")
 				return None
 	return None
 

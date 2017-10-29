@@ -9,8 +9,8 @@ import os, sys
 db.connectDB()
 autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
 if autenticate == None :
-	#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")
-	print("Location: http://localhost/login.py")
+	print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")
+	#print("Location: http://localhost/login.py")
 	print()
 else :
 	print("Content-Type: text/html\r\n\r\n")

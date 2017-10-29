@@ -6,6 +6,7 @@ import Helpers.myparser as parser
 import Helpers.db as db
 import os, sys
 
+
 db.connectDB()
 autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
 if autenticate == None :		
@@ -34,11 +35,18 @@ if autenticate == None :
 		db.connectDB()
 		res = db.login(log_intent['username'],log_intent['password'])
 		if res != None :
-			print("Set-Cookie: SessionID=" + res['sessionID'] + ";")
-			print("Set-Cookie: Expires=" + res['expiration'] + ";")
-			#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")
-			print("Location: http://localhost/index.py")
-			print()
+			if res != -1 :
+				print("Set-Cookie: SessionID=" + res['sessionID'] + ";")
+				print("Set-Cookie: Expires=" + res['expiration'] + ";")
+				#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")
+				print("Location: http://localhost/index.py")
+				print()
+			else :
+				print("Content-Type: text/html;\r\n\r\n")
+				structure.printStartSection()
+				nav.printNav(None)	
+				print(login_form)
+				print("""<p style="color:red">Your user has been blocked. Contact site's admin to unblock it!</p>""")
 		else:
 			print()
 			print("Content-Type: text/html;\r\n\r\n")
@@ -47,6 +55,6 @@ if autenticate == None :
 			print(login_form)
 			print("""\<p style="color:red">Authentication error, try again</p>""")
 else :
-	#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")	
-	print("Location: http://localhost/index.py")
+	print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py;")	
+	#print("Location: http://localhost/index.py")
 	print()
