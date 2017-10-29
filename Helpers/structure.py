@@ -1,12 +1,11 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 def printStartSection():
 	print("<html>")
 	print("""<head><link rel="stylesheet" href="http://localhost/css/style.css">
 		<title> El Mercadito Musical </title> </head>""")
 	print("<body>")
-	print("<h2>El Mecadito Birrero</h2>")
-	#print("""<img src="http://localhost/css/header.png" width="300" height="250">""")
+	print("""<div id="principaldiv"><img id="principalhome" src="http://localhost/css/header.png"></div>""")
 
 def printSearchForm():
 	print (""" <div id="searchdiv">
