@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import smtplib
 import Helpers.myparser as parser
@@ -14,8 +14,8 @@ autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
 def send_email(sender, firstname, lastname, body):
 	recipient  = ['catsakumich@gmail.com']
 	subject = "Feedback Mercadarte Birrero from %s" % (firstname + " " + lastname)
-	gmail_user = "catsakumich@gmail.com"
-	gmail_pwd = "Greenlife8!"
+	gmail_user = ""
+	gmail_pwd = ""
 	TO = recipient if type(recipient) is list else [recipient]
 	# Prepare actual message
 	message = """From: %s\n
