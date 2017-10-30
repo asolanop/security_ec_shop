@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-
+import smtplib
 import Helpers.myparser as parser
 import Helpers.db as db
 import os, sys
@@ -9,6 +9,32 @@ import Helpers.nav as nav
 
 db.connectDB()
 autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
+
+
+def send_email(sender, firstname, lastname, body):
+	recipient  = ['catsakumich@gmail.com']
+	subject = "Feedback Mercadarte Birrero from %s" % (firstname + " " + lastname)
+	gmail_user = "catsakumich@gmail.com"
+	gmail_pwd = "Greenlife8!"
+	TO = recipient if type(recipient) is list else [recipient]
+	# Prepare actual message
+	message = """From: %s\n
+		     To: %s\n
+                     Subject: %s\n\n%s
+		  """ % (sender, ", ".join(TO), subject, body)
+	print(message)	
+	# The actual mail send
+	try:	
+		server = smtplib.SMTP("smtp.gmail.com", 587)
+		server.ehlo()
+		server.starttls()
+		server.login(gmail_user, gmail_pwd)		
+		server.sendmail(gmail_user, recipient[0], message)		
+		server.quit()
+		print("Successfully sent email")
+	except SMTPException:
+		print("Error: unable to send email")
+
 
 # Form to get feedback data 
 print("Content-Type: text/html\r\n\r\n")
@@ -39,12 +65,13 @@ print ("""<div>
 
 # Post method 
 if os.getenv("REQUEST_METHOD") == 'POST':
+	print("Content-Type: text/html\r\n\r\n")
 	post_params = sys.stdin.read()	
 	feed = parser.parseData(post_params)
-	db.connectDB()
-	# Insert into DB Items
-	#db.insertFeed("id", feed['comment'], feed['email'], feed['firstname'], feed['lastname'], autenticate)
+	send_email(feed['email'], feed['firstname'], feed['lastname'], feed['comment'])
+
 	print ("""\<div>
-	<h2>Your comment was added succesfully! 
+	<h2>Your comment was sent succesfully! 
 	<a href="index.py">Go back to Home</a></h2>""")
+
 
