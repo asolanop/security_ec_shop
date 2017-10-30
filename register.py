@@ -3,15 +3,11 @@
 import Helpers.myparser as parser
 import Helpers.db as db
 import os, sys
+import Helpers.validator as validator
 import Helpers.structure as structure
 import Helpers.nav as nav
 
-if os.getenv("REQUEST_METHOD") == 'GET': 
-	print("Content-Type: text/html")
-	print()
-	structure.printStartSection()
-	nav.printNav(None)		
-	print ("""\
+form = """\
 
 <div>
 	<h3>Please complete the data below:</h3>
@@ -48,23 +44,64 @@ if os.getenv("REQUEST_METHOD") == 'GET':
 		<button>Submit</button>
 	</form>
 	</div>
-</div>""")
+</div>"""
+
+if os.getenv("REQUEST_METHOD") == 'GET': 
+	print("Content-Type: text/html")
+	print()
+	structure.printStartSection()
+	nav.printNav(None)		
+	print(form)
 
 if os.getenv("REQUEST_METHOD") == 'POST':
 	post_params = sys.stdin.read()
 	user = parser.parseData(post_params)
-	db.connectDB()
-	db.insertUser("id", user['firstname'], user['lastname'], user['email'], 
-				user['password'], user['username'], user['telephone'], user['address'])
-	
 	print("Content-Type: text/html")
 	print()
 	structure.printStartSection()
 	nav.printNav(None)
-	print ("""\
-
-<div>
-	<h2>User added succesfully: <a href="login.py">Clic to login</a></h2>
-""")
-	
-
+	result = validator.validateUser(user)
+	if result == True :
+		db.connectDB()
+		db.insertUser("id", user['firstname'], user['lastname'], user['email'], 
+			user['password'], user['username'], user['telephone'], user['address'])
+		print ("""\
+			<div>
+				<h2>User added succesfully: <a href="login.py">Clic to login</a></h2></div>
+			""")	
+	elif result == 2 :
+		print(form)
+		print ("""\
+			<div>
+				<p>Name not valid. Try again.</p></div>
+			""")
+	elif result == 3 :
+		print(form)
+		print ("""\
+			<div>
+				<p>Password does not meet security requirments. Try again.</p></div>
+			""")
+	elif result == 4 :
+		print(form)
+		print ("""\
+			<div>
+				<p>Username not valid. Try again.</p></div>
+			""")
+	elif result == 7 :
+		print(form)
+		print ("""\
+			<div>
+				<p>Email not valid. Try again.</p></div>
+			""")
+	elif result == 5 :
+		print(form)
+		print ("""\
+			<div>
+				<p>Address not valid. Try again.</p></div>
+			""")
+	elif result == 6 :
+		print(form)
+		print ("""\
+			<div>
+				<p>Telephone not valid. Try again.</p></div>
+			""")
