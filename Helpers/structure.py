@@ -12,7 +12,7 @@ def printSearchForm():
 		<form method="GET" action="search.py">
 			<label for="search">Search by: </label>
 			<input id="search" name="search" maxlength="50" />
- 			<button type="submit">Submit</button><br>
+ 			<button id="submit" type="submit">Submit</button><br>
 		<br />
 		</form>
 	</div>""")

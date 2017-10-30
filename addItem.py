@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import Helpers.myparser as parser
 import Helpers.db as db
@@ -9,8 +9,8 @@ import Helpers.nav as nav
 db.connectDB()
 autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
 if autenticate == None :
-	print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")
-	#print("Location: http://localhost/login.py")
+	#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")
+	print("Location: http://localhost/login.py")
 	print()
 
 else :	
@@ -29,7 +29,7 @@ else :
 		<label for="price">Price*: </label>
 		<input id="price" name="price" 
 			maxlength="25" type="number" /><br />
-		<button>Submit</button>
+		<button id="submit">Submit</button>
 		</form></div>""")
 
 	# Post method 

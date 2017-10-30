@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 def printNav(autenticate, item_count = None):
 	if autenticate == None :
@@ -7,6 +7,7 @@ def printNav(autenticate, item_count = None):
 		<li><a href="index.py">Home</a></li>
 		<li><a href="register.py">Register</a></li>
 		<li><a href="login.py">Login</a></li>
+		<li><a href="feedback.py">Contact</a></li>
 		</ul>""") 
 	else :
 		print("""
@@ -20,6 +21,7 @@ def printNav(autenticate, item_count = None):
 			print(" (" + str(item_count) + ") ")
 		
 		print("""</a></li>
+		<li><a href="feedback.py">Contact</a></li>		
 		<li><a href="logout.py">Logout</a></li>
 		</ul>
 		""") 

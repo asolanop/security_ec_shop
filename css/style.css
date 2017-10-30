@@ -117,3 +117,9 @@ textarea {
     color: white;
     border-radius: 5px;
 }
+
+#searchdiv {
+    float: center; 
+    text-align: center; 
+
+}
