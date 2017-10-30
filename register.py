@@ -59,6 +59,8 @@ if os.getenv("REQUEST_METHOD") == 'POST':
 	
 	print("Content-Type: text/html")
 	print()
+	structure.printStartSection()
+	nav.printNav(None)
 	print ("""\
 
 <div>

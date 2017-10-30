@@ -28,9 +28,11 @@ else :
 			<p> Your items to be delivered: </p>
 			</div>
 	 	""")
+		items = db.getCartItems(autenticate)
 
 	if os.getenv("REQUEST_METHOD") == 'POST':
-		#db.clearCart(autenticate)
+		items = db.getCartItems(autenticate)
+		db.clearCart(autenticate)
 		deliveryAddress = parser.parseData(sys.stdin.read())
 		print("""\
 			<div>
@@ -39,5 +41,5 @@ else :
 			<br />List of items to be delivered: </p>
 			</div>
 		""")
-	items = db.getAllItems()
 	structure.printItemContents(items)
+	

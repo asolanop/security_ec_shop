@@ -80,6 +80,21 @@ def cartCount(user_id):
 	except:
 		return None
 
+def clearCart(user_id):
+	cart_id = getUserCart(user_id)
+	sql = "Delete From Cart_Items where cart_id=%s"
+	c = global_conn.cursor()
+	c.execute(sql,(cart_id))
+	commitChanges()
+
+def getCartItems(user_id):
+	cart_id = getUserCart(user_id)
+	sql = "Select Items.name, Items.description, Items.price, Items.id from Cart_Items join Items on item_id = id where cart_id=%s ;"
+	c = global_conn.cursor()
+	c.execute(sql,(cart_id))
+	data = c.fetchall()
+	return data
+
 # Insert item
 def insertItem(id, name, price, description, owner):
 	c = global_conn.cursor()	
@@ -174,13 +189,13 @@ def createSession(log_intent):
 	start_date = time.strftime('%Y-%m-%d %H:%M:%S')
 	date_created = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
 	expiration_date = date_created+timedelta(days=1)
-	#try:
-	c = global_conn.cursor()
-	c.execute("INSERT INTO Sessions VALUES (%s, %s, %s, %s)", (random_key,date_created,expiration_date,log_intent[0]))
-	commitChanges()
-	return {'sessionID':random_key,'expiration':expiration_date.strftime('%a, %d %b %Y %T GMT')}
-	#except :
-	#	return None
+	try:
+		c = global_conn.cursor()
+		c.execute("INSERT INTO Sessions VALUES (%s, %s, %s, %s)", (random_key,date_created,expiration_date,log_intent[0]))
+		commitChanges()
+		return {'sessionID':random_key,'expiration':expiration_date.strftime('%a, %d %b %Y %T GMT')}
+	except :
+		return None
 
 def checkSession(sessionCookie):
 	if sessionCookie != None :

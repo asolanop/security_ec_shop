@@ -48,7 +48,6 @@ if autenticate == None :
 				print(login_form)
 				print("""<p style="color:red">Your user has been blocked. Contact site's admin to unblock it!</p>""")
 		else:
-			print()
 			print("Content-Type: text/html;\r\n\r\n")
 			structure.printStartSection()
 			nav.printNav(None)	
