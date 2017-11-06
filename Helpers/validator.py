@@ -13,7 +13,7 @@ def validateAplhaNumericEntry(entry):
 	return pattern.match(entry)
 
 def validateSpecialStringEntry(entry):
-	pattern = re.compile("^([a-zA-Z0-9_,\.\- ])+$")
+	pattern = re.compile("^([a-zA-Z0-9_,\.\-\*\? ])+$")
 	#print(pattern.match(entry))
 	return pattern.match(entry)
 
@@ -36,8 +36,8 @@ def validateSession(entry):
 def validateUser(user):
 	fname_res = validateStringOnlyEntry(user['firstname'])
 	lname_res = validateStringOnlyEntry(user['lastname'])
-	pass_res = validateAplhaNumericEntry(user['password'])
-	username_res = validateSpecialStringEntry(user['username'])
+	pass_res = validateSpecialStringEntry(user['password'])
+	username_res = validateAplhaNumericEntry(user['username'])
 	tel_res = validateNumber(user['telephone'])
 	adr_res = validateSpecialStringEntry(user['address'])
 	email_res = validateMail(user['email'])
@@ -49,6 +49,14 @@ def validateUser(user):
 	if(adr_res == None): return 6
 	if(email_res == None): return 7
 	return True
+
+def validateLogin(intent):
+	pass_res = validateSpecialStringEntry(user['password'])
+	username_res = validateAplhaNumericEntry(user['username'])
+	if(pass_res == None): return False
+	if(username_res == None): return False
+	return True
+
 
 	
 	

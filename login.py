@@ -3,6 +3,7 @@
 import Helpers.structure as structure
 import Helpers.nav as nav
 import Helpers.myparser as parser
+import Helpers.validator as validator
 import Helpers.db as db
 import os, sys
 
@@ -31,28 +32,36 @@ if autenticate == None :
 
 	if os.getenv("REQUEST_METHOD") == 'POST':
 		post_params = sys.stdin.read()
-		log_intent = parser.parseData(post_params)
-		db.connectDB()
-		res = db.login(log_intent['username'],log_intent['password'])
-		if res != None :
-			if res != -1 :
-				print("Set-Cookie: SessionID=" + res['sessionID'] + ";")
-				print("Set-Cookie: Expires=" + res['expiration'] + ";")
-				#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")
-				print("Location: http://localhost/index.py")
-				print()
-			else :
-				print("Content-Type: text/html;\r\n\r\n")
-				structure.printStartSection()
-				nav.printNav(None)	
-				print(login_form)
-				print("""<p style="color:red">Your user has been blocked. Contact site's admin to unblock it!</p>""")
-		else:
+		login_intent = parser.parseData(post_params)
+		validation = validate.validateLogin(login_intent)
+		if validation == False :
 			print("Content-Type: text/html;\r\n\r\n")
 			structure.printStartSection()
 			nav.printNav(None)	
 			print(login_form)
 			print("""\<p style="color:red">Authentication error, try again</p>""")
+		else :
+			db.connectDB()
+			res = db.login(login_intent['username'],login_intent['password'])
+			if res != None :
+				if res != -1 :
+					print("Set-Cookie: SessionID=" + res['sessionID'] + ";")
+					print("Set-Cookie: Expires=" + res['expiration'] + ";")
+					print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")
+					#print("Location: http://localhost/index.py")
+					print()
+				else :
+					print("Content-Type: text/html;\r\n\r\n")
+					structure.printStartSection()
+					nav.printNav(None)	
+					print(login_form)
+					print("""<p style="color:red">Your user has been blocked. Contact site's admin to unblock it!</p>""")
+			else:
+				print("Content-Type: text/html;\r\n\r\n")
+				structure.printStartSection()
+				nav.printNav(None)	
+				print(login_form)
+				print("""\<p style="color:red">Authentication error, try again</p>""")
 else :
 	print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py;")	
 	#print("Location: http://localhost/index.py")

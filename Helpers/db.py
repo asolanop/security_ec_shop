@@ -173,6 +173,7 @@ def login(username, password):
 	sql = "call login(%s, %s); "
 	c = global_conn.cursor()
 	c.execute(sql, (username, password))
+	commitChanges()
 	data = c.fetchall()
 	result = data[0][0]
 	if result != None :

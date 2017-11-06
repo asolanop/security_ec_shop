@@ -79,13 +79,19 @@ if os.getenv("REQUEST_METHOD") == 'POST':
 		print(form)
 		print ("""\
 			<div>
-				<p>Password does not meet security requirments. Try again.</p></div>
+				<p>Password does not meet security requirments. 
+				<br />
+				Can have letters, caps, digits, and special characters (,.-_!?*)
+				<br />
+				Must be between 8 and 16 characters long.
+				<br />
+				 Try again.</p></div>
 			""")
 	elif result == 4 :
 		print(form)
 		print ("""\
 			<div>
-				<p>Username not valid. Try again.</p></div>
+				<p>Username not valid, must be alphanumeric. Try again.</p></div>
 			""")
 	elif result == 7 :
 		print(form)
@@ -103,5 +109,5 @@ if os.getenv("REQUEST_METHOD") == 'POST':
 		print(form)
 		print ("""\
 			<div>
-				<p>Telephone not valid. Try again.</p></div>
+				<p>Telephone not valid, only numbers. Try again.</p></div>
 			""")
