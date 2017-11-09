@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 16-10-2017 a las 00:39:33
+-- Tiempo de generación: 09-11-2017 a las 03:52:52
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `mercadito`
 --
-
--- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `Cart`
@@ -46,15 +44,41 @@ CREATE TABLE IF NOT EXISTS `Cart_Items` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `Feedback`
+--
+
+CREATE TABLE IF NOT EXISTS `Feedback` (
+  `id` int(11) NOT NULL,
+  `comment` varchar(100) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `isAuth` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `Items`
 --
 
 CREATE TABLE IF NOT EXISTS `Items` (
   `id` int(11) NOT NULL,
   `name` varchar(75) NOT NULL,
-  `price` decimal(7,2) NOT NULL,
+  `price` decimal(13,2) NOT NULL,
   `description` varchar(250) NOT NULL,
   `owner` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `log`
+--
+
+CREATE TABLE IF NOT EXISTS `log` (
+  `id` int(11) NOT NULL,
+  `query` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -81,30 +105,14 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `username` varchar(25) NOT NULL,
   `telephone` int(11) NOT NULL,
   `address` varchar(100) NOT NULL,
-  `role` int(1) NOT NULL DEFAULT 0, 
-  `try_count` int(1) NOT NULL DEFAULT 0, -- 0 starts the password try
-  `enable` boolean DEFAULT 1 -- 1 = enable 0 = blocked
+  `role` int(1) NOT NULL DEFAULT '0',
+  `try_count` int(1) NOT NULL DEFAULT '0',
+  `enable` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `Feedback`
---
-
-CREATE TABLE IF NOT EXISTS `Feedback` (
-  `id` int(11) NOT NULL,
-  `comment` varchar(100) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `isAuth` boolean DEFAULT 0 NOT NULL -- 0 is not Auth -- 1 is Auth
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 --
 -- Índices para tablas volcadas
@@ -118,18 +126,18 @@ ALTER TABLE `Cart`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indices de la tabla `Cart`
---
-ALTER TABLE `Feedback`
-  ADD PRIMARY KEY (`id`);
-
-
---
 -- Indices de la tabla `Cart_Items`
 --
 ALTER TABLE `Cart_Items`
+  ADD PRIMARY KEY (`cart_id`,`item_id`),
   ADD KEY `cart_id` (`cart_id`),
   ADD KEY `item_id` (`item_id`);
+
+--
+-- Indices de la tabla `Feedback`
+--
+ALTER TABLE `Feedback`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `Items`
@@ -137,6 +145,12 @@ ALTER TABLE `Cart_Items`
 ALTER TABLE `Items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `owner` (`owner`);
+
+--
+-- Indices de la tabla `log`
+--
+ALTER TABLE `log`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `Sessions`
@@ -163,7 +177,6 @@ ALTER TABLE `Users`
 ALTER TABLE `Cart`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
---
 -- AUTO_INCREMENT de la tabla `Feedback`
 --
 ALTER TABLE `Feedback`
@@ -174,10 +187,56 @@ ALTER TABLE `Feedback`
 ALTER TABLE `Items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT de la tabla `log`
+--
+ALTER TABLE `log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `Users`
 --
 ALTER TABLE `Users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `login`(IN `user` VARCHAR(25), IN `pass` VARCHAR(100))
+    NO SQL
+BEGIN
+
+	DECLARE result INT;
+    DECLARE user_count INT;
+	
+    INSERT into log values (null, pass);
+    
+    SELECT id into result 
+    from Users 
+    where username = user && password = pass && enable = 1 ;
+    
+    IF result IS NOT NULL THEN
+    	update Users set try_count = 0 where username = user;
+    ELSE
+    	Select try_count into user_count
+        FROM Users
+        WHERE username = user;
+        IF user_count >= 2 THEN
+	        update Users set try_count = try_count+1, enable = 0 
+            where username = user;
+            SET result = -1;
+        ELSE
+        	update Users set try_count = try_count+1 
+            where username = user;
+        END IF;
+    END IF;
+    SELECT result;
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
