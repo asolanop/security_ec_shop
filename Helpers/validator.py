@@ -51,8 +51,8 @@ def validateUser(user):
 	return True
 
 def validateLogin(intent):
-	pass_res = validateSpecialStringEntry(user['password'])
-	username_res = validateAplhaNumericEntry(user['username'])
+	pass_res = validateSpecialStringEntry(intent['password'])
+	username_res = validateAplhaNumericEntry(intent['username'])
 	if(pass_res == None): return False
 	if(username_res == None): return False
 	return True

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 import Helpers.structure as structure
 import Helpers.nav as nav
@@ -33,7 +33,7 @@ if autenticate == None :
 	if os.getenv("REQUEST_METHOD") == 'POST':
 		post_params = sys.stdin.read()
 		login_intent = parser.parseData(post_params)
-		validation = validate.validateLogin(login_intent)
+		validation = validator.validateLogin(login_intent)
 		if validation == False :
 			print("Content-Type: text/html;\r\n\r\n")
 			structure.printStartSection()
