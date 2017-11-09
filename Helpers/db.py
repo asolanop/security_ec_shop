@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import pymysql, os, hashlib, time
 from datetime import datetime, timedelta
@@ -23,7 +23,7 @@ def getConection():
 	conn = pymysql.connect(
 	    db='mercadito',
 	    user='root',
-	    passwd='',
+	    passwd='grisiru',
 	    host='localhost')
 	return conn
 
@@ -41,8 +41,9 @@ def deleteData():
 # Insert user
 def insertUser(id,firstname,lastname,email,pw, username, phone, address):
 	#print("Inserting user")
-	c = global_conn.cursor()	
-	c.execute("INSERT INTO Users (id, first_name, last_name, email, password, username, telephone, address) VALUES (null, %s, %s, %s, %s, %s, %s, %s)", (firstname, lastname, email, pw, username, phone, address))
+	c = global_conn.cursor()
+	cryptokey = hashlib.sha224(pw.encode('utf-8')).hexdigest()	
+	c.execute("INSERT INTO Users (id, first_name, last_name, email, password, username, telephone, address) VALUES (null, %s, %s, %s, %s, %s, %s, %s)", (firstname, lastname, email, cryptokey, username, phone, address))
 	createUserCart(c.lastrowid)
 	commitChanges()
 
@@ -101,13 +102,6 @@ def insertItem(id, name, price, description, owner):
 	c.execute("INSERT INTO Items VALUES (null, %s, %s, %s, %s)", (name, price, description, owner))
 	commitChanges()
 
-# Insert item
-def insertItem(id,name,price,descrip,owner):
-	#print("Inserting item")
-	c = global_conn.cursor()	
-	c.execute("INSERT INTO Items VALUES (null, %s, %s, %s, %s)", (name,price,descrip,owner))
-	commitChanges()
-
 # Print contents 
 def printData():
 	sql = "SELECT * FROM `Users` WHERE `email`=%s"
@@ -119,9 +113,10 @@ def printData():
 # Insert sample data users
 def insertSampleUsers():
 	c = global_conn.cursor()	
-	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Michelle","Cersosimo","mich@zoquetemail.com","admin","mich",22295015,"Coronado", 1, 0, 1))
+	admin = hashlib.sha224("admin".encode('utf-8')).hexdigest()	
+	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Michelle","Cersosimo","mich@zoquetemail.com",admin,"mich",22295015,"Coronado", 1, 0, 1))
 	createUserCart(c.lastrowid)
-	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",("Andres","Solano","andru@zoquetemail.com","admin","andru",22829829,"Alajuela", 1, 0, 1))
+	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",("Andres","Solano","andru@zoquetemail.com",admin,"andru",22829829,"Alajuela", 1, 0, 1))
 	createUserCart(c.lastrowid)
 	commitChanges()
 
@@ -171,8 +166,9 @@ def addToCart(item_id, user_id):
 
 def login(username, password):
 	sql = "call login(%s, %s); "
+	cryptokey = hashlib.sha224(password.encode('utf-8')).hexdigest()	
 	c = global_conn.cursor()
-	c.execute(sql, (username, password))
+	c.execute(sql, (username, cryptokey))
 	commitChanges()
 	data = c.fetchall()
 	result = data[0][0]

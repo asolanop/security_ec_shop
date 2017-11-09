@@ -201,7 +201,7 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `login`(IN `user` VARCHAR(25), IN `pass` VARCHAR(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `login`(IN `user` VARCHAR(25), IN `pass` VARCHAR(255))
     NO SQL
 BEGIN
 
