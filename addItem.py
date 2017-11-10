@@ -1,9 +1,10 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import Helpers.myparser as parser
 import Helpers.db as db
 import os, sys
 import Helpers.structure as structure
+import Helpers.validator as validator
 import Helpers.nav as nav
 
 db.connectDB()
@@ -18,7 +19,7 @@ else :
 	print("Content-Type: text/html\r\n\r\n")
 	structure.printStartSection()
 	nav.printNav(autenticate, db.cartCount(autenticate))
-	print ("""<div>
+	form = """<div>
 		<h3>Enter your product information:</h3>
 		<form method="POST">
 		<label for="name">Item Name*: </label>
@@ -30,16 +31,29 @@ else :
 		<input id="price" name="price" 
 			maxlength="25" type="number" /><br />
 		<button id="submit">Submit</button>
-		</form></div>""")
+		</form></div>"""
+	print(form)
 
 	# Post method 
 	if os.getenv("REQUEST_METHOD") == 'POST':
 		post_params = sys.stdin.read()	
 		item = parser.parseData(post_params)
-		db.connectDB()
-		# Insert into DB Items
-		db.insertItem("id", item['name'], item['price'], item['description'], autenticate)
-		print ("""\<div>
-		<h2>Item added succesfully! 
-		<a href="index.py">Go back to Home</a></h2>""")
+		result = validator.validateItem(item)
+		if result == True :
+			db.connectDB()
+			# Insert into DB Items
+			db.insertItem("id", item['name'], item['price'], item['description'], autenticate)
+			print ("""\<div>
+			<h2>Item added succesfully! 
+			<a href="index.py">Go back to Home</a></h2>""")
+		elif result == 2 :
+			print ("""\
+				<div>
+					<p>Please, write only numbers and letters.</p></div>
+				""")
+		elif result == 3 :
+			print ("""\
+				<div>
+					<p>You must enter a number digit like 1500.00</p></div>
+				""")
 	

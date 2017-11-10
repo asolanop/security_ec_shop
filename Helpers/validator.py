@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import re
 
@@ -50,6 +50,15 @@ def validateUser(user):
 	if(email_res == None): return 7
 	return True
 
+def validateItem(item):
+	item_name = validateAplhaNumericEntry(item['name'])
+	item_descrip = validateAplhaNumericEntry(item['description'])
+	item_price = validateNumber(item['price'])
+	if(item_name == None): return 2
+	if(item_descrip == None): return 2
+	if(item_price == None): return 3
+	return True
+
 def validateLogin(intent):
 	pass_res = validateSpecialStringEntry(intent['password'])
 	username_res = validateAplhaNumericEntry(intent['username'])
@@ -57,6 +66,9 @@ def validateLogin(intent):
 	if(username_res == None): return False
 	return True
 
-
+def validateAddress(deliveryAddress):
+	result = validateSpecialStringEntry(deliveryAddress['address'])
+	if(result == None): return False
+	return True
 	
 	

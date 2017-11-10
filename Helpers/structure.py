@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 def printStartSection():
 	print("<html>")
@@ -17,7 +17,7 @@ def printSearchForm():
 		</form>
 	</div>""")
 
-def printItemContents(items):
+def printItemContents(items, addPosibility):
 	#action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/search.py"
 
 	bigtempl = '''<center>
@@ -27,21 +27,38 @@ def printItemContents(items):
     		</center>'''
 
 	#action="http://localhost/cgi-bin/MA-Shop/security_ec_shop/addToCart.py">
-	rowtempl = """
-	<tr>
-	    <td align="center">
-	    <p class="sansserif"> 
-		<b> {name} </b> <br>
-		Description: {descrip} <br>
-		Price: {price}
-		</p>
-		<form method="POST" action="addToCart.py">
-		<input type="hidden" name="itemID" value={id} />
-		<button type="submit">Add to Cart</button><br>
-		</form>
-	    </td>
-	</tr>
-	"""
+	rowtempl = ""
+	if addPosibility == 1:
+		rowtempl = """
+		<tr>
+		    <td align="center">
+		    <p class="sansserif"> 
+			<b> {name} </b> <br>
+			Description: {descrip} <br>
+			Price: {price}
+			</p>
+			<form method="POST" action="addToCart.py">
+			<input type="hidden" name="itemID" value={id} />
+			<button type="submit">Add to Cart</button><br>
+			</form>
+		    </td>
+		</tr>
+		"""
+	else: 
+		rowtempl = """
+		<tr>
+		    <td align="center">
+		    <p class="sansserif"> 
+			<b> {name} </b> <br>
+			Description: {descrip} <br>
+			Price: {price}
+			</p>
+			<form method="POST" action="addToCart.py">
+			<input type="hidden" name="itemID" value={id} />
+			</form>
+		    </td>
+		</tr>
+		"""
 
 	names_list = list()
 	prices_list = list()
