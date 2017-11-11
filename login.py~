@@ -49,7 +49,7 @@ if autenticate == None :
 					print("Set-Cookie: SessionID=" + res['sessionID'] + ";")
 					print("Set-Cookie: Expires=" + res['expiration'] + ";")
 					#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")
-					print("Location: https://172.24.129.8//index.py")
+					print("Location: https://localhost/index.py")
 					print()
 				else :
 					print("Content-Type: text/html;\r\n\r\n")
@@ -65,5 +65,5 @@ if autenticate == None :
 				print("""\<p style="color:red">Authentication error, try again</p>""")
 else :
 	#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py;")	
-	print("Location: https://172.24.129.8/index.py")
+	print("Location: https://localhost/index.py")
 	print()

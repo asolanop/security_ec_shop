@@ -1,4 +1,5 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
+
 import pymysql, os, hashlib, time
 from datetime import datetime, timedelta
 
@@ -21,8 +22,8 @@ def connectDB():
 def getConection():
 	conn = pymysql.connect(
 	    db='mercadito',
-	    user='root',
-	    passwd='',
+	    user='agente007',
+	    passwd='agenteBond007!',
 	    host='localhost')
 	return conn
 
@@ -40,21 +41,65 @@ def deleteData():
 # Insert user
 def insertUser(id,firstname,lastname,email,pw, username, phone, address):
 	#print("Inserting user")
-	c = global_conn.cursor()	
-	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s)", (firstname, lastname, email, pw, username, phone, address))
+	c = global_conn.cursor()
+	cryptokey = hashlib.sha224(pw.encode('utf-8')).hexdigest()	
+	c.execute("INSERT INTO Users (id, first_name, last_name, email, password, username, telephone, address) VALUES (null, %s, %s, %s, %s, %s, %s, %s)", (firstname, lastname, email, cryptokey, username, phone, address))
+	createUserCart(c.lastrowid)
 	commitChanges()
+
+# Is Admin or not 
+def isAdmin(user_id):
+	try :
+		sql = "Select role FROM Users where id=%s"
+		c = global_conn.cursor()
+		c.execute(sql, (user_id))
+		data = c.fetchone()
+		return data[0]
+	except:
+		return None
+
+
+# Create a cart tuple for a just created user
+def createUserCart(user_id):
+	try :
+		sql = "Insert INTO Cart Values(null, %s)"
+		c = global_conn.cursor()
+		c.execute(sql, (int(user_id)))
+		commitChanges()
+	except :
+		return None
+
+# Get cart items count
+def cartCount(user_id):
+	try :
+		cart_id = getUserCart(user_id)
+		sql = "Select COUNT(item_id) FROM Cart_Items where cart_id=%s"
+		c = global_conn.cursor()
+		c.execute(sql, (cart_id))
+		data = c.fetchone()
+		return data[0]
+	except:
+		return None
+
+def clearCart(user_id):
+	cart_id = getUserCart(user_id)
+	sql = "Delete From Cart_Items where cart_id=%s"
+	c = global_conn.cursor()
+	c.execute(sql,(cart_id))
+	commitChanges()
+
+def getCartItems(user_id):
+	cart_id = getUserCart(user_id)
+	sql = "Select Items.name, Items.description, Items.price, Items.id from Cart_Items join Items on item_id = id where cart_id=%s ;"
+	c = global_conn.cursor()
+	c.execute(sql,(cart_id))
+	data = c.fetchall()
+	return data
 
 # Insert item
 def insertItem(id, name, price, description, owner):
 	c = global_conn.cursor()	
 	c.execute("INSERT INTO Items VALUES (null, %s, %s, %s, %s)", (name, price, description, owner))
-	commitChanges()
-
-# Insert item
-def insertItem(id,name,price,descrip,owner):
-	#print("Inserting item")
-	c = global_conn.cursor()	
-	c.execute("INSERT INTO Items VALUES (null, %s, %s, %s, %s)", (name,price,descrip,owner))
 	commitChanges()
 
 # Print contents 
@@ -67,33 +112,71 @@ def printData():
 
 # Insert sample data users
 def insertSampleUsers():
-	insertUser(1,"Michelle","Cersosimo","mich@zoquetemail.com","password1","mich",22295015,"Coronado")
-	insertUser(2,"Andres","Solano","andru@zoquetemail.com","password2","andru",22829829,"Alajuela")
+	c = global_conn.cursor()	
+	admin = hashlib.sha224("admin".encode('utf-8')).hexdigest()	
+	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Michelle","Cersosimo","mich@zoquetemail.com",admin,"mich",22295015,"Coronado", 1, 0, 1))
+	createUserCart(c.lastrowid)
+	c.execute("INSERT INTO Users VALUES (null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",("Andres","Solano","andru@zoquetemail.com",admin,"andru",22829829,"Alajuela", 1, 0, 1))
+	createUserCart(c.lastrowid)
+	commitChanges()
 
 # Insert sample data items
 def insertSampleItems():
-	insertItem(1,"Maracas",2000.00,"pa cumbiar",1)
-	insertItem(2,"Flauta Traversa",540.00,"fancy as it sounds",2)
+	insertItem(1,"La Maraca",2000.00,"Sabores dulces con una pizca de maracuya",1)
+	insertItem(2,"Domingo 7 ",1540.00,"Para esos dias especiales, nuestra combinacion IPA oscura",2)
+	insertItem(3,"Lagarta",1700.00,"Fria como ella sola, nuestros citricos cerveceros combinan perfecto con esta solucion amarga",2)
 
 def getAllItems():
 	c = global_conn.cursor()	
-	c.execute("SELECT name, price, description FROM Items")
+	c.execute("SELECT name, price, description, id FROM Items")
 	data = c.fetchall()
 	return data
 
 def search(searchby): 
 	c = global_conn.cursor()	
-	c.execute("SELECT name, price, description FROM Items where name LIKE '%"+searchby+"%' OR description LIKE'%"+searchby+"%';")
+	c.execute("SELECT name, price, description, id FROM Items where name LIKE '%"+searchby+"%' OR description LIKE'%"+searchby+"%';")
 	data = c.fetchall()
 	return data
 
+def getUserCart(user_id):
+	sql = "Select id FROM `Cart` WHERE user_id=%s;"
+	try : 
+		c = global_conn.cursor()
+		c.execute(sql, (user_id))
+		if c.rowcount > 0:
+			data = c.fetchone()
+			return data[0]
+		else:
+			return None
+	except :
+		return None
+
+def addToCart(item_id, user_id):
+	sql = "INSERT INTO Cart_Items VALUES (%s, %s, 1);"
+	cart_id = getUserCart(user_id)
+	if cart_id == None :
+		return None
+	try :
+		c = global_conn.cursor()
+		c.execute(sql, (cart_id, int(item_id)))
+		commitChanges()
+		return 1
+	except :
+		None
+
 def login(username, password):
-	sql = "SELECT * FROM `Users` WHERE `username`=%s AND `password`=%s;"
+	sql = "call login(%s, %s); "
+	cryptokey = hashlib.sha224(password.encode('utf-8')).hexdigest()	
 	c = global_conn.cursor()
-	c.execute(sql, (username, password))
-	if c.rowcount > 0:
-		data = c.fetchone()
-		return createSession(data)
+	c.execute(sql, (username, cryptokey))
+	commitChanges()
+	data = c.fetchall()
+	result = data[0][0]
+	if result != None :
+		if result != -1 :
+			return createSession(data)
+		else :
+			return -1
 	else:
 		return None
 
@@ -107,6 +190,31 @@ def createSession(log_intent):
 		c = global_conn.cursor()
 		c.execute("INSERT INTO Sessions VALUES (%s, %s, %s, %s)", (random_key,date_created,expiration_date,log_intent[0]))
 		commitChanges()
-		return {'sessionID':random_key,'expiration':expiration_date.strftime('%Y-%m-%d %H:%M:%S')}
+		return {'sessionID':random_key,'expiration':expiration_date.strftime('%a, %d %b %Y %T GMT')}
 	except :
+		return None
+
+def checkSession(sessionCookie):
+	if sessionCookie != None :
+		if 'SessionID' in sessionCookie :
+			sql = "SELECT user_id FROM `Sessions` WHERE `id`=%s AND `expiration`>NOW();"
+			try :
+				c = global_conn.cursor()
+				c.execute(sql, (sessionCookie['SessionID']))
+				if c.rowcount > 0:
+					data = c.fetchone()
+					return data[0]
+			except :
+				#print("Error checking cookie on DB")
+				return None
+	return None
+
+def delSession(sessionCookie):
+	sql = "Delete FROM `Sessions` WHERE `id`=%s;"
+	try:
+		c = global_conn.cursor()
+		c.execute(sql, (sessionCookie))
+		commitChanges()
+		return 1
+	except:
 		return None

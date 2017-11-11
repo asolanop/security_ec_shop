@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import Helpers.myparser as parser
 import Helpers.db as db
@@ -11,8 +11,8 @@ db.connectDB()
 cookie = parser.parseCookie(os.getenv("HTTP_COOKIE"))
 autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE"))) if validator.validateSession(cookie) else None
 if autenticate == None :
-	print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")
-	#print("Location: http://localhost/login.py")
+	#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")
+	print("Location: https://172.24.129.8/login.py")
 	print()
 
 else :	

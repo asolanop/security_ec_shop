@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import pymysql, os, hashlib, time
 from datetime import datetime, timedelta
@@ -22,8 +22,8 @@ def connectDB():
 def getConection():
 	conn = pymysql.connect(
 	    db='mercadito',
-	    user='root',
-	    passwd='',
+	    user='agente007',
+	    passwd='agenteBond007!',
 	    host='localhost')
 	return conn
 

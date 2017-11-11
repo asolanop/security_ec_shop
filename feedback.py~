@@ -74,6 +74,6 @@ if os.getenv("REQUEST_METHOD") == 'POST':
 
 	print ("""\<div>
 	<h2>Your comment was sent succesfully! 
-	<a href="index.py">Go back to Home</a></h2>""")
+	<a href="https://localhost/index.py">Go back to Home</a></h2>""")
 
 

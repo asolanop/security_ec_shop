@@ -2,10 +2,10 @@
 
 def printStartSection():
 	print("<html>")
-	print("""<head><link rel="stylesheet" href="css/style.css">
+	print("""<head><link rel="stylesheet" href="https://localhost/css/style.css">
 		<title> El Mercadito Musical </title> </head>""")
 	print("<body>")
-	print("""<div id="principaldiv"><img id="principalhome" src="img/header.png"></div>""")
+	print("""<div id="principaldiv"><img id="principalhome" src="https://localhost/css/header.png"></div>""")
 
 def printSearchForm():
 	print (""" <div id="searchdiv">
