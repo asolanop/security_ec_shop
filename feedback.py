@@ -6,9 +6,11 @@ import Helpers.db as db
 import os, sys
 import Helpers.structure as structure
 import Helpers.nav as nav
+import Helpers.validator as validator
 
 db.connectDB()
-autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
+cookie = parser.parseCookie(os.getenv("HTTP_COOKIE"))
+autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE"))) if validator.validateSession(cookie) else None
 
 
 def send_email(sender, firstname, lastname, body):

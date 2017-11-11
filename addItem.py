@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 import Helpers.myparser as parser
 import Helpers.db as db
@@ -8,10 +8,11 @@ import Helpers.validator as validator
 import Helpers.nav as nav
 
 db.connectDB()
-autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
+cookie = parser.parseCookie(os.getenv("HTTP_COOKIE"))
+autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE"))) if validator.validateSession(cookie) else None
 if autenticate == None :
-	#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")
-	print("Location: http://localhost/login.py")
+	print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")
+	#print("Location: http://localhost/login.py")
 	print()
 
 else :	
@@ -26,7 +27,7 @@ else :
 		<input id="name" name="name" maxlength="50" /><br />
 		<label for="description">Description*: </label>
 		<input id="description" name="description" 
-			maxlength="50" /><br />
+			maxlength="100" /><br />
 		<label for="price">Price*: </label>
 		<input id="price" name="price" 
 			maxlength="25" type="number" /><br />

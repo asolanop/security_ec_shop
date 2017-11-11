@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 import Helpers.db as db
 import Helpers.myparser as parser
@@ -8,7 +8,8 @@ import Helpers.validator as validator
 import os, sys
 
 db.connectDB()
-autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
+cookie = parser.parseCookie(os.getenv("HTTP_COOKIE"))
+autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE"))) if validator.validateSession(cookie) else None
 if autenticate == None :
 	#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/login.py")
 	print("Location: http://localhost/login.py")
@@ -21,7 +22,7 @@ else :
 			<div>
 			<form method="POST"> 
 				<label for="address">Enter the addres to deliver your items: </label>
-				<input id="address" name="address" maxlength="25" type="text" />
+				<input id="address" name="address" maxlength="100" type="text" />
 				<button>Submit</button>
 			</form>
 			

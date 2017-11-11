@@ -14,14 +14,15 @@ print("Content-Type: text/html\r\n\r\n")
 
 if os.getenv("REQUEST_METHOD") == 'GET':
 	db.connectDB()
-	autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
+	cookie = parser.parseCookie(os.getenv("HTTP_COOKIE"))
+	autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE"))) if validator.validateSession(cookie) else None
 	structure.printStartSection()
 	nav.printNav(autenticate, db.cartCount(autenticate))
 	structure.printSearchForm()
 	item = parser.parseData(os.getenv("QUERY_STRING"))
-	if validator.validateAplhaNumericEntry(item['search']) != None :
+	if validator.validateEntryLenght(item['search'], 1, 50) and validator.validateAplhaNumericEntry(item['search']) != None :
 		data = db.search(item['search'])
-		structure.printItemContents(data)
+		structure.printItemContents(data, 1)
 	else :
 		print(""" <div> <p> The search string recieved unexpected characters. 
 				Please enter only alphabetic characters </p> </div> """)

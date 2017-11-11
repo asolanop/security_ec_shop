@@ -9,7 +9,8 @@ import os, sys
 
 
 db.connectDB()
-autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE")))
+cookie = parser.parseCookie(os.getenv("HTTP_COOKIE"))
+autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE"))) if validator.validateSession(cookie) else None
 if autenticate == None :		
 	login_form = """\
 	<div>
@@ -47,8 +48,8 @@ if autenticate == None :
 				if res != -1 :
 					print("Set-Cookie: SessionID=" + res['sessionID'] + ";")
 					print("Set-Cookie: Expires=" + res['expiration'] + ";")
-					#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")
-					print("Location: http://localhost/index.py")
+					print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py")
+					#print("Location: http://localhost/index.py")
 					print()
 				else :
 					print("Content-Type: text/html;\r\n\r\n")
@@ -63,6 +64,6 @@ if autenticate == None :
 				print(login_form)
 				print("""\<p style="color:red">Authentication error, try again</p>""")
 else :
-	#print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py;")	
-	print("Location: http://localhost/index.py")
+	print("Location: http://localhost/cgi-bin/MA-Shop/security_ec_shop/index.py;")	
+	#print("Location: http://localhost/index.py")
 	print()

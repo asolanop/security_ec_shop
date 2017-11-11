@@ -2,12 +2,13 @@
 
 import Helpers.myparser as parser
 import Helpers.db as db
+import Helpers.validator as validator
 import os, sys, time
 from datetime import datetime, timedelta
 
 db.connectDB()
 cookie = parser.parseCookie(os.getenv("HTTP_COOKIE"))
-autenticate = db.checkSession(cookie)
+autenticate = db.checkSession(parser.parseCookie(os.getenv("HTTP_COOKIE"))) if validator.validateSession(cookie) else None
 if autenticate != None :
 	db.delSession(cookie['SessionID'])
 
