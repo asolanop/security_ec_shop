@@ -33,7 +33,7 @@ def validateEntryLenght(entry, min_lenght, max_lenght):
 	return False
 
 def validateSession(entry):
-	if not ('SessionID' in entry): return False
+	if ((entry == None) or (not ('SessionID' in entry))): return False
 	if(not(validateEntryLenght(entry['SessionID'], 32 , 32))): return False
 	pattern = re.compile("^([a-f0-9])+$")
 	if(pattern.match(entry['SessionID']) == None) : return False

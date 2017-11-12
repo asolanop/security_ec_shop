@@ -22,8 +22,8 @@ def connectDB():
 def getConection():
 	conn = pymysql.connect(
 	    db='mercadito',
-	    user='agente007',
-	    passwd='agenteBond007!',
+	    user='root',
+	    passwd='',
 	    host='localhost')
 	return conn
 
