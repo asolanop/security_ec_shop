@@ -3,7 +3,7 @@
 def printStartSection():
 	print("<html>")
 	print("""<head><link rel="stylesheet" href="css/style.css">
-		<title> El Mercadito Musical </title> </head>""")
+		<title> El Mercadarte Birrero  </title> </head>""")
 	print("<body>")
 	print("""<div id="principaldiv"><img id="principalhome" src="img/header.png"></div>""")
 

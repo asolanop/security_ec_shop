@@ -47,22 +47,22 @@ def validateUser(user):
 	tel_res = validateNumber(user['telephone'])
 	adr_res = validateSpecialStringEntry(user['address'])
 	email_res = validateMail(user['email'])
-	if(not(validateEntryLenght(user['firstname'], 1, 50)) and fname_res == None): return 2
-	if(not(validateEntryLenght(user['lastname'], 1, 50)) and lname_res == None): return 2
-	if(not(validateEntryLenght(user['password'], 8, 16)) and pass_res == None): return 3
-	if(not(validateEntryLenght(user['username'], 1, 25)) and username_res == None): return 4
-	if(not(validateEntryLenght(user['telephone'], 8, 12)) and tel_res == None): return 5
-	if(not(validateEntryLenght(user['address'], 1, 50)) and adr_res == None): return 6
-	if(not(validateEntryLenght(user['email'], 1, 75)) and email_res == None): return 7
+	if(not(validateEntryLenght(user['firstname'], 1, 50)) or fname_res == None): return 2
+	if(not(validateEntryLenght(user['lastname'], 1, 50)) or lname_res == None): return 2
+	if(not(validateEntryLenght(user['password'], 8, 16)) or pass_res == None): return 3
+	if(not(validateEntryLenght(user['username'], 1, 25)) or username_res == None): return 4
+	if(not(validateEntryLenght(user['telephone'], 8, 12)) or tel_res == None): return 5
+	if(not(validateEntryLenght(user['address'], 1, 50)) or adr_res == None): return 6
+	if(not(validateEntryLenght(user['email'], 1, 75)) or email_res == None): return 7
 	return True
 
 def validateItem(item):
 	item_name = validateAplhaNumericEntry(item['name'])
 	item_descrip = validateSpecialStringEntry(item['description'])
 	item_price = validateNumber(item['price'])
-	if(not(validateEntryLenght(item['name'], 1, 25)) and item_name == None): return 2
-	if(not(validateEntryLenght(item['description'], 1, 100)) and item_descrip == None): return 2
-	if(not(validateEntryLenght(item['price'], 1, 15)) and item_price == None): return 3
+	if(not(validateEntryLenght(item['name'], 1, 25)) or item_name == None): return 2
+	if(not(validateEntryLenght(item['description'], 1, 100)) or item_descrip == None): return 2
+	if(not(validateEntryLenght(item['price'], 1, 15)) or item_price == None): return 3
 	return True
 
 def validateLogin(intent):
@@ -74,7 +74,7 @@ def validateLogin(intent):
 
 def validateAddress(deliveryAddress):
 	result = validateSpecialStringEntry(deliveryAddress['address'])
-	if(not(validateEntryLenght(deliveryAddress['address'], 1, 50)) and result == None): return False
+	if(not(validateEntryLenght(deliveryAddress['address'], 1, 50)) or result == None): return False
 	return True
 	
 	
